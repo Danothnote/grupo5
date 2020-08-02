@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, ScrollView } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
 export default class Login extends Component {
@@ -44,39 +44,41 @@ export default class Login extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar translucent backgroundColor='white' barStyle='dark-content' />
-                <View style={styles.sec1}>
-                    <View style={styles.logo}>
-                        <Text style={styles.txtLogo}>Grupo 5</Text>
+                <ScrollView contentContainerStyle={styles.scroll}>
+                    <StatusBar translucent backgroundColor='white' barStyle='dark-content' />
+                    <View style={styles.sec1}>
+                        <View style={styles.logo}>
+                            <Text style={styles.txtLogo}>Grupo 5</Text>
+                        </View>
+                        <Text style={styles.titulo}>Bienvenido</Text>
                     </View>
-                    <Text style={styles.titulo}>Bienvenido</Text>
-                </View>
-                <View style={styles.sec2}>
-                    <TextInput
-                        placeholder="E-mail"
-                        style={styles.input}
-                        placeholderTextColor='black'
-                        keyboardType='email-address'
-                        textContentType="emailAddress"
-                        onChangeText={(email) => this.setState({ email })}
-                    />
-                    <TextInput
-                        placeholder="Contrseña"
-                        style={styles.input}
-                        placeholderTextColor='black'
-                        textContentType="password"
-                        onChangeText={(password) => this.setState({ password })}
-                        secureTextEntry
-                    />
-                </View>
-                <View>
-                    <TouchableOpacity style={styles.boton1} onPress={this.verificarDatos}>
-                        <Text style={styles.btn1Texto}>Iniciar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.boton2} onPress={() => this.props.navigation.navigate('Signup')}>
-                        <Text style={styles.btn2Texto}>Crear Usuario</Text>
-                    </TouchableOpacity>
-                </View>
+                    <View style={styles.sec2}>
+                        <TextInput
+                            placeholder="E-mail"
+                            style={styles.input}
+                            placeholderTextColor='black'
+                            keyboardType='email-address'
+                            textContentType="emailAddress"
+                            onChangeText={(email) => this.setState({ email })}
+                        />
+                        <TextInput
+                            placeholder="Contrseña"
+                            style={styles.input}
+                            placeholderTextColor='black'
+                            textContentType="password"
+                            onChangeText={(password) => this.setState({ password })}
+                            secureTextEntry
+                        />
+                    </View>
+                    <View>
+                        <TouchableOpacity style={styles.boton1} onPress={this.verificarDatos}>
+                            <Text style={styles.btn1Texto}>Iniciar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.boton2} onPress={() => this.props.navigation.navigate('Signup')}>
+                            <Text style={styles.btn2Texto}>Crear Usuario</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </View>
         );
     }
@@ -85,10 +87,13 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "space-between",
-        paddingBottom: 100,
         backgroundColor: 'white',
-        paddingVertical: 60
+    },
+    scroll: {
+        flexGrow: 1,
+        paddingVertical: 60,
+        paddingBottom: 100,
+        justifyContent: "space-between"
     },
     sec1: {
         paddingTop: 40,

@@ -48,6 +48,7 @@ export default class Signup extends Component {
       .collection(this.state.coleccion)
       .add({
         uid: auth().currentUser.uid,
+        admin: false,
         nombreUsuario: this.state.nombreUsuario,
         tipoIdentificación: this.state.tipoIdentificación,
         identificación: this.state.identificación,

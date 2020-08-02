@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { ToastAndroid } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import SigninStack from '../Navegacion/signinStack';
 import SignoutStack from '../Navegacion/signoutStack';
 import AdminStack from './adminStack';
@@ -17,25 +18,32 @@ export default function AuthNavigator() {
         setUser(result)
         setAdmin(() => {
             if (result) {
-                if (auth().currentUser.uid == '8RWfVPuUHshsxSS6QlZkkT57cOm1') {
-                    setAdmin(true)
-                    ToastAndroid.showWithGravityAndOffset(
-                        "Bienvenido Administrador",
-                        ToastAndroid.LONG,
-                        ToastAndroid.BOTTOM,
-                        25,
-                        50
-                    );
-                } else {
-                    setAdmin(false)
-                    ToastAndroid.showWithGravityAndOffset(
-                        "Bienvenido",
-                        ToastAndroid.LONG,
-                        ToastAndroid.BOTTOM,
-                        25,
-                        50
-                    );
-                }
+                firestore()
+                    .collection('Usuarios')
+                    .where('uid', '==', auth().currentUser.uid)
+                    .get()
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach(async (doc) => {
+                            setAdmin(doc.data().admin)
+                            if (doc.data().admin == true) {
+                                ToastAndroid.showWithGravityAndOffset(
+                                    "Bienvenido Administrador",
+                                    ToastAndroid.LONG,
+                                    ToastAndroid.BOTTOM,
+                                    25,
+                                    50
+                                );
+                            } else {
+                                ToastAndroid.showWithGravityAndOffset(
+                                    "Bienvenido",
+                                    ToastAndroid.LONG,
+                                    ToastAndroid.BOTTOM,
+                                    25,
+                                    50
+                                );
+                            }
+                        });
+                    });
             }
         })
 
