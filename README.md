@@ -11,6 +11,8 @@ npx react-native link react-native-vector-icons
 
 Una vez se hayan descargado todas sin fallos, se podrá correr la aplicación en un dispositivo físico o un emulador escribiendo en una terminal: npx react-native run-android
 
+# Importante
+
 Si no ha utilizado nunca React Native, seguir las instrucciones para instalar todo lo necesario que se encuentran la documentación oficial:
 
 https://reactnative.dev/docs/environment-setup
