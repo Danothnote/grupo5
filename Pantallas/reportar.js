@@ -110,7 +110,6 @@ export default class Reportar extends Component {
             .collection(this.state.coleccion)
             .add({
                 uid: auth().currentUser.uid,
-                did: '',
                 Título: this.state.Título,
                 Descripción: this.state.Descripción,
                 latitude: this.state.latitudMarker,
