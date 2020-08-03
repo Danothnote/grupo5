@@ -19,6 +19,7 @@ export default class Reportar extends Component {
             Imágen: '',
             nombreImágen: '',
             nombreUsuario: '',
+            obtenida: false,
             latitude: 0,
             longitude: 0,
             latitudMarker: null,
@@ -47,13 +48,15 @@ export default class Reportar extends Component {
     posiciónActual = () => {
         Geolocation.getCurrentPosition(
             position => {
-                console.log(JSON.stringify(position));
-                this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    latitudMarker: position.coords.latitude,
-                    longitudMarker: position.coords.longitude
-                })
+                if (position) {
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        latitudMarker: position.coords.latitude,
+                        longitudMarker: position.coords.longitude,
+                        obtenida: true
+                    })
+                }
             }
         )
         ToastAndroid.showWithGravityAndOffset(
@@ -182,29 +185,33 @@ export default class Reportar extends Component {
                     </TouchableOpacity>
                     <View style={{ ...styles.items, height: 300 }}>
                         <Text style={styles.itemsTxt}>Ubicación</Text>
-                        <MapView
-                            style={styles.map}
-                            showsCompass
-                            showsUserLocation
-                            initialRegion={{
-                                latitude: this.state.latitude,
-                                longitude: this.state.longitude,
-                                latitudeDelta: this.state.latitudeDelta,
-                                longitudeDelta: this.state.longitudeDelta
-                            }}
-                        >
-                            <Marker
-                                title={'Denuncia'}
-                                coordinate={{ latitude: this.state.latitude, longitude: this.state.longitude }}
-                                onSelect={e => this.log('onSelect', e)}
-                                onDrag={e => this.log('onDrag', e)}
-                                onDragStart={e => this.log('onDragStart', e)}
-                                onDragEnd={e => this.log('onDragEnd', e)}
-                                onPress={e => this.log('onPress', e)}
-                                draggable
+                        {this.state.obtenida ? (
+                            <MapView
+                                style={styles.map}
+                                showsCompass
+                                showsUserLocation
+                                initialRegion={{
+                                    latitude: this.state.latitude,
+                                    longitude: this.state.longitude,
+                                    latitudeDelta: this.state.latitudeDelta,
+                                    longitudeDelta: this.state.longitudeDelta
+                                }}
                             >
-                            </Marker>
-                        </MapView>
+                                <Marker
+                                    title={'Denuncia'}
+                                    coordinate={{ latitude: this.state.latitude, longitude: this.state.longitude }}
+                                    onSelect={e => this.log('onSelect', e)}
+                                    onDrag={e => this.log('onDrag', e)}
+                                    onDragStart={e => this.log('onDragStart', e)}
+                                    onDragEnd={e => this.log('onDragEnd', e)}
+                                    onPress={e => this.log('onPress', e)}
+                                    draggable
+                                >
+                                </Marker>
+                            </MapView>
+                        ) : (
+                                <Text>Obteniendo Ubicación</Text>
+                            )}
                     </View>
                 </ScrollView>
                 <View style={{ alignItems: 'flex-end', marginRight: 30 }}>
